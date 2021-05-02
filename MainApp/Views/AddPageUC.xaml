@@ -1,0 +1,109 @@
+﻿<UserControl x:Class="MainApp.Views.AddPageUC"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:MainApp.Views"
+             xmlns:m="clr-namespace:Microsoft.Maps.MapControl.WPF;assembly=Microsoft.Maps.MapControl.WPF"
+             mc:Ignorable="d"
+             d:DesignHeight="600" d:DesignWidth="500"
+             
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+             TextElement.FontWeight="Regular"
+             TextElement.FontSize="13"
+             TextOptions.TextFormattingMode="Ideal"
+             TextOptions.TextRenderingMode="Auto"
+             Background="{DynamicResource MaterialDesignBackground}"
+             FontFamily="{DynamicResource MaterialDesignFont}">
+
+    <UserControl.Resources>
+        <ResourceDictionary Source="../Dictionary.xaml"/>
+    </UserControl.Resources>
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- By City Name -->
+        <RadioButton IsChecked="{Binding IsCheckedByName}"
+                     Style="{StaticResource baseRadioButtonStyle}" >
+
+            <Border Background="{StaticResource PrimaryColorMid}"
+                    BorderBrush="{StaticResource PrimaryColorLight}"
+                    Style="{StaticResource borderStyleAddPage}">
+
+                <DockPanel>
+                    <Label Content="By City Name" DockPanel.Dock="Top"
+                           FontSize="30" FontStretch="Expanded"
+                           Foreground="{StaticResource TextColorPrimary}"/>
+
+                    <TextBox x:Name="textBlockName" DockPanel.Dock="Top"
+                             materialDesign:HintAssist.Hint="City Name"
+                             IsEnabled="{Binding IsCheckedByName}"
+                             Text="{Binding CityName, UpdateSourceTrigger=PropertyChanged,
+                             ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True}"
+                             Style="{StaticResource byNameTextBoxStyleAddPage}"/>
+
+                    <!--<TextBlock Text="{Binding (Validation.Errors)[0].ErrorContent, 
+                                               ElementName=textBlockName}"
+                               FontSize="12" Foreground="Red" Margin="0 20 0 0"/>-->
+                </DockPanel>
+            </Border>
+        </RadioButton>
+
+        <!-- By City Coords -->
+        <RadioButton Grid.Row="1" IsChecked="{Binding IsCheckedByCoords}"
+                     Style="{StaticResource baseRadioButtonStyle}">
+
+            <Border Background="{StaticResource SecondaryColorMid}"
+                    BorderBrush="{StaticResource SecondaryColorLight}"
+                    Style="{StaticResource borderStyleAddPage}">
+
+                <DockPanel LastChildFill="False">
+                    <Label Content="By City Coords" DockPanel.Dock="Top"
+                           FontSize="30" FontStretch="Expanded"
+                           Foreground="{StaticResource TextColorSecondary}"/>
+
+                    <TextBox Text="{Binding Latitude, UpdateSourceTrigger=PropertyChanged, 
+                             ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True}"
+                             IsEnabled="{Binding IsCheckedByCoords}"
+                             materialDesign:HintAssist.Hint="Latitude"
+                             Style="{StaticResource byCoordsTextBoxStyleAddPage}"/>
+
+                    <TextBox DockPanel.Dock="Right"
+                             Text="{Binding Longitude, UpdateSourceTrigger=PropertyChanged, 
+                             ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True}"
+                             IsEnabled="{Binding IsCheckedByCoords}"
+                             materialDesign:HintAssist.Hint="Longitude"
+                             Style="{StaticResource byCoordsTextBoxStyleAddPage}"/>
+                </DockPanel>
+            </Border>
+        </RadioButton>
+
+        <!-- Map -->
+        <Border Background="{StaticResource SecondaryColorMid}" Grid.Row="2"
+                BorderBrush="{StaticResource SecondaryColorLight}"
+                Style="{StaticResource borderStyleAddPage}" Margin="15 5">
+
+            <m:Map Name="Map" Margin="5" MouseRightButtonDown="MapRightMouseButtonClick" 
+                   CredentialsProvider="AmNHI1OE361KWO9unJKN-DioETmrzrQMOtEnf61kmtI5E3tSni0p_FhOEzKldL_e">
+                <m:Pushpin Location="{Binding CurrLoc}"/>
+            </m:Map>
+        </Border>
+
+            <!-- Buttons -->
+        <UniformGrid Grid.Row="3" Columns="2" Rows="1">
+
+            <Button Content="Add" Command="{Binding AddCommand}"
+                    Style="{StaticResource addButtonStyle}"/>
+
+            <Button Content="Cancel" Command="{Binding CancelCommand}"
+                    Style="{StaticResource cancelButtonStyle}"/>
+        </UniformGrid>
+    </Grid>
+</UserControl>

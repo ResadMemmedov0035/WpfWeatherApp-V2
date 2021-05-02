@@ -1,0 +1,31 @@
+﻿<Window x:Class="MainApp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MainApp"
+        xmlns:views="clr-namespace:MainApp.Views"
+        xmlns:viewModels="clr-namespace:MainApp.ViewModels"
+        mc:Ignorable="d" MinHeight="200"
+        x:Name="mainWindow"
+        Title="MainWindow" Height="500" Width="500">
+
+    <Window.Resources>
+        
+        <DataTemplate DataType="{x:Type viewModels:ListPageVM}">
+            <views:ListPageUC/>
+        </DataTemplate>
+        
+        <DataTemplate DataType="{x:Type viewModels:AddPageVM}">
+            <views:AddPageUC/>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type viewModels:DetailsPageVM}">
+            <views:DetailsPageUC/>
+        </DataTemplate>
+    </Window.Resources>
+
+    <Grid>
+        <ContentControl Content="{Binding CurrentViewModel}"/>
+    </Grid>
+</Window>
